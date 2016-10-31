@@ -13,19 +13,33 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 2. Observa que las tramas capturadas corresponden a una sesión SIP con Ekiga, un cliente de VoIP para GNOME. Responde a las siguientes cuestiones:
  ** ¿Cuántos paquetes componen la captura?
+	954
+
  ** ¿Cuánto tiempo dura la captura?
+	Aproximadamente 56.15 segundos
+
  ** ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se trata de una IP pública o de una IP privada? ¿Por qué lo sabes?
+	192.168.1.34. Se trata de una IP privada, porque esta 
+	haciendo una petición a su servidor de DNS para comunicarse con 86.64.162.35(dirección 		pública).
 
 
 3. Antes de analizar las tramas, mira las estadísticas generales que aparecen en el menú de Statistics. En el apartado de jerarquía de protocolos (Protocol Hierarchy) se puede ver el porcentaje del tráfico correspondiente al protocolo TCP y UDP.
  ** ¿Cuál de los dos es mayor? ¿Es esto consistente con una aplicación que transmite en tiempo real?
+	Es mayor el porcentaje de paquetes en UDP(96.2%) que en TCP(2.1%). Sí, es consistente con  
+	una aplicación que transmite en tiempo real, la mayor parte de los paquetes están
+	encapsulados en UDP, TCP no sirve para transmitir en tiempo real.
+
  ** ¿Qué otros protocolos podemos ver en la jerarquía de protocolos?
+	RTP, RTCP
 
 
 4. Observa por encima el flujo de tramas en el menú de Statistics en IO Graphs. La captura que estamos viendo incluye desde la inicialización (registro) de la aplicación hasta su finalización, con una llamada entremedias.
  ** Filtra por sip para conocer cuándo se envían paquetes SIP. ¿En qué segundos tienen lugar esos envíos?
- ** Y los paquetes con RTP, ¿cuándo se envían?
+	7, 14, 16, 38-40, 55-56(200 OK - fin de la conexión.
 
+ ** Y los paquetes con RTP, ¿cuándo se envían?
+	16-22, 22-38. Puede haber paquetes aislados de H.261, pero se siguen mandando paquetes con
+	RTP
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
