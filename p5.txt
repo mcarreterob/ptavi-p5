@@ -88,8 +88,10 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
  ** ¿A qué puerto (del servidor Registrar) se envían los paquetes SIP?
 	5063
+
  ** ¿Qué método SIP utiliza el UA para registrarse?
 	REGISTER
+
  ** Además de REGISTER, ¿qué instrucciones SIP entiende el UA?
 	INVITE, ACK, OPTIONS, BYE, CANCEL, NOTIFY, REFER, MESSAGE
 
