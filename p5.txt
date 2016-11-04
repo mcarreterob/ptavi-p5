@@ -19,15 +19,12 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 	Aproximadamente 56.15 segundos
 
  ** ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se trata de una IP pública o de una IP privada? ¿Por qué lo sabes?
-	192.168.1.34. Se trata de una IP privada, porque esta 
-	haciendo una petición a su servidor de DNS para comunicarse con 86.64.162.35(dirección 		pública).
+	192.168.1.34. Se trata de una IP privada, porque esta haciendo una petición a su servidor de DNS para comunicarse con 86.64.162.35(dirección pública).
 
 
 3. Antes de analizar las tramas, mira las estadísticas generales que aparecen en el menú de Statistics. En el apartado de jerarquía de protocolos (Protocol Hierarchy) se puede ver el porcentaje del tráfico correspondiente al protocolo TCP y UDP.
  ** ¿Cuál de los dos es mayor? ¿Es esto consistente con una aplicación que transmite en tiempo real?
-	Es mayor el porcentaje de paquetes en UDP(96.2%) que en TCP(2.1%). Sí, es consistente con  
-	una aplicación que transmite en tiempo real, la mayor parte de los paquetes están
-	encapsulados en UDP, TCP no sirve para transmitir en tiempo real.
+	Es mayor el porcentaje de paquetes en UDP(96.2%) que en TCP(2.1%). Sí, es consistente con una aplicación que transmite en tiempo real, la mayor parte de los paquetes están encapsulados en UDP, TCP no sirve para transmitir en tiempo real.
 
  ** ¿Qué otros protocolos podemos ver en la jerarquía de protocolos?
 	RTP, RTCP
@@ -38,8 +35,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 	7, 14, 16, 38-40, 55-56(200 OK - fin de la conexión.
 
  ** Y los paquetes con RTP, ¿cuándo se envían?
-	16-22, 22-38. Puede haber paquetes aislados de H.261, pero se siguen mandando paquetes con
-	RTP
+	16-22, 22-38. Puede haber paquetes aislados de H.261, pero se siguen mandando paquetes con RTP
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
@@ -70,16 +66,15 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 	83.36.48.212
 
  ** Si lanzamos el navegador web, por ejemplo, Mozilla Firefox, y vamos a la misma URL, ¿qué recibimos? ¿Qué es, entonces, lo que está respondiendo el servidor?
-	Recibimos la IP 212.128.254.160. Lo que está respondiendo el servidor es la IP con la que  		él nos ve. Si esa IP no coincide con nuestra IP real, significa que estamos detrás de un   		NAT y nos está devolviendo la IP del NAT.
+	Recibimos la IP 212.128.254.160. Lo que está respondiendo el servidor es la IP con la que él nos ve. Si esa IP no coincide con nuestra IP real, significa que estamos detrás de un NAT y nos está devolviendo la IP del NAT.
 
 
 7. Hasta la trama 45 se puede observar una secuencia de tramas del protocolo STUN.
  ** ¿Por qué crees que se hace uso de este protocolo en esta captura? Busca en la Wikipedia.
-	Para saber su IP pública, el tipo de NAT en el que se encuentra y el puerto de Internet
-	asociado con el puerto local a través de NAT
+	Para saber su IP pública, el tipo de NAT en el que se encuentra y el puerto de Internet asociado con el puerto local a través de NAT
 
  ** ¿Estamos tras un NAT?
-	Sí, estamos tras un NAT porque le pedimos que nos "hable" con otra IP y con otro puerto y 		no lo recibimos.
+	Sí, estamos tras un NAT porque le pedimos que nos "hable" con otra IP y con otro puerto y no lo recibimos.
 
 
 8. La trama 46 es la primera trama SIP. En un entorno como el de Internet, lo habitual es desconocer la dirección IP de la otra parte al realizar una llamada. Por eso, todo usuario registra su localización en un servidor Registrar. El Registrar guarda información sobre los usuarios en un servidor de localización que puede ser utilizado para localizar usuarios.
@@ -101,24 +96,48 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 9. Fijémonos en las tramas siguientes a la número 46:
  ** ¿Se registra con éxito en el primer intento?
+ 	No, sale un error 401 Unauthorized
+ 	
  ** ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+ 	Cuando aparezca una trama de SIP con el mensaje 200 OK (1 bindings)
+ 	
  ** ¿Podrías identificar las diferencias entre el primer intento y el segundo de registro? (fíjate en el tamaño de los paquetes y mira a qué se debe el cambio)
+ 	El primer intento tiene un tamaño de 523 bytes mientras que el segundo intento tiene un tamaño de 712 bytes. Esto se debe a que incluye en la petición una línea 'Authorization'
+ 	 
  ** ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica las unidades.
+    3600 segundos
 
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar con el servicio de eco de Ekiga que nos permite comprobar si nos hemos conectado correctamente. El servicio de eco tiene la dirección sip:500@ekiga.net. Veamos el INVITE de cerca.
  ** ¿Puede verse el nombre del que efectúa la llamada, así como su dirección SIP?
+    Sí, puede verse tanto el nombre(Gregorio Robles) como su dirección SIP(sip:grex@ekiga.net)
+    
  ** ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+    El creador de la sesion (o), el nombre de la sesion (s), infomacion de conexion (c), tiempo en que la sesion esta activa (t), descripcion de medio y direccion de transporte asociada (m) y atributos del medio. Está en SIP.
+    
  ** ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+    No, porque la respuesta es un error 407 Proxy Authentication Required.
+    
  ** ¿En qué se diferencia el segundo INVITE más abajo del primero? ¿A qué crees que se debe esto?
+    Incluye el campo de Proxy-Authorization que le había dado error anteriormente, lo que supone un aumento en el tamaño(en bytes) de la trama
 
 
 11. Una vez conectado, estudia el intercambio de tramas.
  ** ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
+    RTP, RTCP, H.261. RTP es el protocolo basico de transporte de tráfico multimedia en internet. H.261 es un estándar de codificación de video. RTCP es el protocolo que proporciona informacion de control sobre la calidad de la transmision.
+    
  ** ¿Cuál es el tamaño de paquete de los mismos?
+    El tamaño de los paquetes de RTP es 214bytes, los de RTCP 43bytes y H.261 tamaño variable.
+    
  ** ¿Se utilizan bits de padding?
+    No
+    
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
+    Los paquetes de H.261 se envían con periodicidad 0,240855segundos y los de RTP se envían con periodicidad 0,185132
+    
+    
  ** ¿Cuántos bits/segundo estamos enviando?
+    En torno a 25725 bits/segundo
 
 
 
