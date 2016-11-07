@@ -217,15 +217,28 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+    Sí, DNS para la asignación del dominio y STUN para conocer nuestra IP publica.
+
  ** ¿Son diferentes el registro y la descripción de la sesión?
+    No, son iguales.
 
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
+    Dos, uno de ida y uno de vuelta(los dos flujos de audio)
+
  ** ¿Cuál es su periodicidad?
+    Se envian paquetes RTP cada 0.02s(en cada direccion, si medimos periodicidad bidireccional: 0.01s).
+
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+    MaxDelta = 62.00ms
+    MaxJitter = 5.78ms ; MeanJitter = 1.53ms
+
  ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
+    Podria, desde RTP < Strean Analysis < Play Streams (en el laboratorio no se oye, pero se deberia oir). Al poner un JitterBuffer pequeño, tendriamos silencios de espera(al no llegar los paquetes de audio), poniendo un buffer mayor "acumulamos" interferencias y nos llegan la mayoria de los paquetes de audio sin retrasos.
+
  ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
+    Con sip:9999@qxip.net no fue posible conectar, conectamos con sip:music@iptel.org y éste ofrece servicio de musica.
 
 
 
