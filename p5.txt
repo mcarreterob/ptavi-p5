@@ -192,7 +192,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
     924, 925, 927, 933
 
  ** ¿Por qué crees que se envía varias veces?
-    Ni idea, algo le pasa con el puerto destino
+    Porque queremos que pare la comunicacion cuanto antes, entonces no esperamos a recibir respuesta, enviamos directamente 4 BYE por si alguno se pierde pero recibe todos y despues recibimos los 4 200 OK.
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
