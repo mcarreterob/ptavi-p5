@@ -82,7 +82,7 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 	86.64.162.35
 
  ** ¿A qué puerto (del servidor Registrar) se envían los paquetes SIP?
-	5063
+	5060
 
  ** ¿Qué método SIP utiliza el UA para registrarse?
 	REGISTER
